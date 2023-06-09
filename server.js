@@ -3,11 +3,23 @@ import ejs from 'ejs';
 import { getList } from './services/getList.js'
 import bodyParser from 'body-parser';
 import firestoreConn from './services/firebaseConfig.js';
-import { doc, setDoc } from "firebase/firestore"; 
+import { doc, setDoc } from "firebase/firestore";
+import router from './routes/filesRoutes.js';
 
+
+import https from 'https';
+import fs from 'fs';
+let privateKey  = fs.readFileSync('./cert/listbuy.app+3-key.pem', 'utf8');
+let certificate = fs.readFileSync('./cert/listbuy.app+3.pem', 'utf8');
+
+let credentials = {key: privateKey, cert: certificate};
+
+// your express configuration here
 const app = express();
 
 const PORT = 1234;
+const HTTPSPORT = 8080;
+const HOST = '10.0.0.15';
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
@@ -18,10 +30,11 @@ app.use(bodyParser.urlencoded({
 
 app.use(bodyParser.json());
 
-app.use('/src', express.static('./src'));
+//app.use('/src', express.static('./src'));
 
+//app.use('/src', express.static(path.join(__dirname, 'client')));
 
-
+app.use('/src', router);
 
 
 
@@ -64,4 +77,10 @@ app.post('/sendLink', (request,response) => {
 
 
 
-app.listen(PORT, () => console.log('Server  running...'));
+
+
+
+
+app.listen(PORT, HOST, () => console.log(`Http server running on port ${PORT}`));
+
+https.createServer(credentials, app).listen(HTTPSPORT, () => {console.log(`Https server  running on port ${HTTPSPORT}`)});

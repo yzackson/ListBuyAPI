@@ -18,7 +18,7 @@
         <div class="mb-3">
             <label for="listName" class="form-label">Nome Lista</label>
             <input type="text" class="form-control" name="listName" id="listName" aria-describedby="data_link">
-            <div id="data_link" class="form-text">Nome da lista.</div>
+            <div id="data_link" class="form-tex t">Nome da lista.</div>
         </div>
         <div class="mb-3">
             <label for="link" class="form-label">Link</label>
@@ -28,9 +28,35 @@
         <button type="submit" class="btn btn-primary" value="submit">Submit</button>
     </form>
 
+    <br><br><br>
+    <div id="reader" style="width:300px;display: inline-block; position: relative; padding: 0px; border: 1px solid silver;"></div>
+    <div id="result">
+        Resultado
+    </div>
+
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js" integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4" crossorigin="anonymous"></script>
+    <script src="/src/html5-qr-code.min.js"></script>
+    <script>
+        function onScanSuccess(decodedText, decodedResult) {
+            document.getElementById("link").value = decodedText
+            // handle the scanned code as you like, for example:
+            //console.log(`Code matched = ${decodedText}`, decodedResult);
+            html5QrcodeScanner.clear();
+        }
 
+        function onScanFailure(error) {
+            // handle scan failure, usually better to ignore and keep scanning.
+            // for example:
+            //console.warn(`Code scan error = ${error}`);
+        }
+
+        let html5QrcodeScanner = new Html5QrcodeScanner(
+            "reader",
+            { fps: 10, qrbox: { width: 250, height: 250 } },
+            /* verbose= */ false);
+        html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+    </script>
     <!-- <script src="../src/html5-qr-code.min.js"></script>
     <style>
         .result {
