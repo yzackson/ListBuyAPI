@@ -7,14 +7,7 @@ const authcookie = /\,.*?\;/;
 
 let cookieToSend;
 
-let object = {
-    Item: "",
-    Codigo: 0,
-    Quantidade: 0,
-    Unidade: "",
-    ValorUnitario: 0,
-    ValorTotal: 0
-}
+
 
 export async function getList(link) {
     
@@ -39,6 +32,14 @@ export async function getList(link) {
             const $ = cheerio.load(ret);
             $('tr').each((i, elem) => {
                 let a = $(elem).text().replace('(','').replace(')','').match(/((?<=\s)(\w(.*?))(?=\n))|(?<=\t)(?=\w).*/gm);
+                let object = {
+                    Item: "",
+                    Codigo: 0,
+                    Quantidade: 0,
+                    Unidade: "",
+                    ValorUnitario: 0,
+                    ValorTotal: 0
+                }
                 object.Item = a[0]
                 object.Codigo = a[1].match(/(?<=\s).*/gm)[0]
                 object.Quantidade = a[2].match(/(?<=:).*/gm)[0]

@@ -16,6 +16,11 @@
 
     <form method="post" action="/sendLink">
         <div class="mb-3">
+            <label for="listName" class="form-label">Nome Lista</label>
+            <input type="text" class="form-control" name="listName" id="listName" aria-describedby="data_link">
+            <div id="data_link" class="form-text">Nome da lista.</div>
+        </div>
+        <div class="mb-3">
             <label for="link" class="form-label">Link</label>
             <input type="text" class="form-control" name="link" id="link" aria-describedby="data_link">
             <div id="data_link" class="form-text">Coloque o link escaneado.</div>
