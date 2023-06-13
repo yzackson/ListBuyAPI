@@ -42,10 +42,10 @@ export async function getList(link) {
                 }
                 object.Item = a[0]
                 object.Codigo = a[1].match(/(?<=\s).*/gm)[0]
-                object.Quantidade = a[2].match(/(?<=:).*/gm)[0]
+                object.Quantidade = parseInt(a[2].match(/(?<=:).*/gm)[0])
                 object.Unidade = a[3].match(/(?<=\s).*/gm)[0]
-                object.ValorUnitario = a[4].match(/(?<=:).*/gm)[0].trim()
-                object.ValorTotal = a[5].match(/(?<=Total).*/gm)[0]
+                object.ValorUnitario = parseFloat(a[4].match(/(?<=:).*/gm)[0].trim())
+                object.ValorTotal = parseFloat(a[5].match(/(?<=Total).*/gm)[0])
                 aray[i] = object;
             })
             return aray;

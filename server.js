@@ -8,7 +8,7 @@ import router from './routes/filesRoutes.js';
 
 
 import https from 'https';
-import fs from 'fs';
+import fs, { link } from 'fs';
 let privateKey  = fs.readFileSync('./cert/listbuy.app+3-key.pem', 'utf8');
 let certificate = fs.readFileSync('./cert/listbuy.app+3.pem', 'utf8');
 
@@ -19,7 +19,7 @@ const app = express();
 
 const PORT = 1234;
 const HTTPSPORT = 8080;
-const HOST = '10.0.0.15';
+const HOST = '192.168.100.34';
 
 app.engine('html', ejs.renderFile);
 app.set('view engine', 'html');
@@ -49,8 +49,10 @@ app.get('/getList', (req, res) => {
 })
 
 app.post('/sendLink', (request,response) => {
+    console.log(request.body.link);
     //console.log(request.body.link);
     getList(request.body.link).then(list => {
+        console.log(list);
         return list;
     }).then(list => {
         let data = {};
@@ -68,7 +70,7 @@ app.post('/sendLink', (request,response) => {
         let collName = `${date.toLocaleString('default', { month: 'long' })}${yyyy}`;
     
         setDoc(doc(firestoreConn, collName, docName), data).then(res => {
-            response.send(res);
+            response.send(`Dados adicionados... \n\n Response: ${res} \n\n${JSON.stringify(data)}`);
         });
     })
 })
